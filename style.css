@@ -66,3 +66,15 @@ body {
   button:active {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   }
+
+  #result-message {
+    font-weight: bold;
+    text-align: center;
+    /* display: none;   */
+  }
+
+  #error-message {
+    color: red;
+    text-align: center;
+    /* display: none;   */
+  }
