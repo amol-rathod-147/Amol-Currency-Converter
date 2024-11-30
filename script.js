@@ -27,3 +27,37 @@ function populateCurrencyDropdown(data, dropdown) {
         });
     });
 }
+
+convertButton.addEventListener('click', () => {
+    const from = fromCurrency.value;
+    const to = toCurrency.value;
+    const amount = parseFloat(amountInput.value);
+
+    if (!from || !to || isNaN(amount) || amount <= 0) {
+        error.textContent = 'Please fill in all fields with valid data';
+        result.textContent = '';
+        return;
+    }
+
+    const apiKey = '091a40c7def4e3a2962684c6'; 
+    const url = `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${from}/${to}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                const conversionRate = data.conversion_rate;
+                const convertedAmount = (amount * conversionRate).toFixed(2);
+                result.textContent = `${amount} ${from} = ${convertedAmount} ${to}`;
+                error.textContent = '';
+            } else {
+                error.textContent = 'Error fetching conversion rate';
+                result.textContent = '';
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching conversion rate:', err);
+            error.textContent = 'Error fetching conversion rate';
+            result.textContent = '';
+        });
+});
